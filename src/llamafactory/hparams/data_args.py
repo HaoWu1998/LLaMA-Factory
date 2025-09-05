@@ -107,6 +107,12 @@ class DataArguments:
         default=False,
         metadata={"help": "Enable sequence packing without cross-attention."},
     )
+    shuffle_for_sequence_parallel: bool = field(
+        default=True,
+        metadata={
+            "help": "Shuffle dataset before sequence parallel preprocessing (should shuffle before pad & split)."
+        },
+    )
     tool_format: Optional[str] = field(
         default=None,
         metadata={"help": "Tool format to use for constructing function calling examples."},
@@ -163,8 +169,8 @@ class DataArguments:
         if self.neat_packing:
             self.packing = True
 
-        if self.packing:
-            self.cutoff_len -= 1  # avoid pad_to_multiple_of, needs improve
+        # if self.packing:
+        #     self.cutoff_len -= 1  # avoid pad_to_multiple_of, needs improve
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)

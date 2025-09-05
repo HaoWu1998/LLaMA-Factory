@@ -179,7 +179,8 @@ class PackedSupervisedDatasetProcessor(SupervisedDatasetProcessor):
                 else:
                     packed_attention_masks += [1] * len(batch_input_ids[index])
 
-            if len(packed_input_ids) < self.data_args.cutoff_len + 1:  # avoid flash_attn drops attn mask
+            #if len(packed_input_ids) < self.data_args.cutoff_len + 1:  # avoid flash_attn drops attn mask
+            if len(packed_input_ids) < self.data_args.cutoff_len:
                 pad_length = self.data_args.cutoff_len - len(packed_input_ids) + 1
                 packed_input_ids += [self.tokenizer.pad_token_id] * pad_length
                 packed_position_ids += [0] * pad_length
